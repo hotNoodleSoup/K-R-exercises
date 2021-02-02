@@ -1,14 +1,26 @@
+
 #include <stdio.h>
 
-main()
+/* Here, a word is any consecutive sequence of letter(s). */
+
+main ()
+
 {
-	int c, prevc = EOF;
+	int	is_in_word, c;
 
-	while ((c = getchar()) != EOF) {
-		if (c != ' ' || prevc != ' ')
-  		  putchar(c);
-		prevc      =             c;
-	}
+	is_in_word = 0;
+	while ((c = getchar()) != EOF)
 
-                   printf("\n");
+		if (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z') {
+
+			is_in_word = 1;
+			putchar(c);
+
+		} else if (is_in_word) {
+
+				putchar('\n');
+
+			is_in_word = 0;
+
+		}
 }
