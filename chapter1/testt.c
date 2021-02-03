@@ -1,26 +1,29 @@
-
 #include <stdio.h>
+int main(){
 
-/* Here, a word is any consecutive sequence of letter(s). */
+    int userInput;
+    int arrayStuff[92];
+    int i, j;
 
-main ()
+    for(i = 0; i < 92; ++i){
+        arrayStuff[i] = 0;
+    }
 
-{
-	int	is_in_word, c;
+    while((userInput = getchar()) != '\n'){
+        if(userInput >= 30 && userInput <= 122){
+            if(userInput != '\n'){
+                ++arrayStuff[(userInput-30)];
+            }
 
-	is_in_word = 0;
-	while ((c = getchar()) != EOF)
+            if(userInput == '\n'){
+                break;
+            }
+        }
+    }
 
-		if (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z') {
+    printf("Case\t|\tOccurances\n");
 
-			is_in_word = 1;
-			putchar(c);
-
-		} else if (is_in_word) {
-
-				putchar('\n');
-
-			is_in_word = 0;
-
-		}
+    for(i = 0; i < 92; ++i){
+        printf("%c\t|\t%d\n", (i+30), arrayStuff[i]);
+    }
 }

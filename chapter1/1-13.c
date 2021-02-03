@@ -1,12 +1,13 @@
 #include <stdio.h>
-#define MAXWORD 10
+#define MAXLENGTH 10
+#define MAXREPEAT 35
 #define IN 1
 #define OUT 0
 
 main()
 {
 	int c;
-	int wc[MAXWORD] = {0};
+	int wc[MAXLENGTH] = {0};
 	int count = 0;
 	char state = OUT;
 
@@ -24,7 +25,7 @@ main()
 	
 	int i, j;
 
-	for (i = 35; i >= 1; --i) {
+	for (i = MAXREPEAT; i >= 1; --i) {
 		printf("%2d |", i);
 		for (j = 0; j < 10; ++j) {
 			if (wc[j] == i) {
