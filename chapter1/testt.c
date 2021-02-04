@@ -1,59 +1,52 @@
-#include <ctype.h>
-#include <limits.h>
 #include <stdio.h>
 
-/*  print a graph of the frequencies of different characters */
+/* 	print a graph of the frequencies of different characters */
 
-#define GRAPH_HEIGHT 20
-#define AA (3 * UCHAR_MAX/4) 
-#define BB (4 * UCHAR_MAX/4)
+#define GRAPH_HEIGHT 5
 
-void count_chars(FILE *in, unsigned int *frequencies)
+main()
 {
-    int c;
-    while ((c = fgetc(in)) != EOF) {
-        ++frequencies[(unsigned char)c];
-    }
-}
+	int af[26] = {0};
+	int max = 1;
+	int c;
+	int i, j;
 
-void print_graph(FILE *out, const unsigned int *frequencies)
-{
-    /* start at 1 to avoid division by 0 later */
-    unsigned int max = 1;
-    for (unsigned int i = 0;  i <= UCHAR_MAX;  ++i) {
-        if (frequencies[i] > max) {
-            max = frequencies[i];
-        }
-    }
+	/* get characters */
+	while ((c = getchar()) != EOF) {
+		if (c >= 'a' && c <= 'z') 
+			if (++af[c - 'a'] > max) {
+				++max;
+				continue;
+			}
+		if (c >= 'A' && c <= 'Z')
+			if (++af[c - 'A'] > max)
+				++max;
+	}
 
-    /* print characters on a graph */
-    for (unsigned int i = GRAPH_HEIGHT;  i > 0;  --i) {
-        fprintf(out, "%2d |", i);
-        for (int c = AA;  c <= BB;  ++c) {
-         
-            char bar = frequencies[c] >= i * max / GRAPH_HEIGHT ? '|' : ' ';
-            fprintf(out, " %c ", bar);
-        }
-        fputs("\n", out);
-    }
+	/* calculate relative frequencies */
+	for (i = 0; i < 26; ++i) {
+		af[i] = GRAPH_HEIGHT * af[i] / max;
+	}
 
-    /* print the base line */
-    fputs("   +", out);
-    for (int c = AA;  c <= BB;  ++c) {
-       
-        fputs("---", out);
-    }
-    fputs("\n   ", out);
-    for (int c = AA;  c <= BB;  ++c) {
-        
-        fprintf(stdout, "%3c", c);
-    }
-    fputs("\n", out);
-}
+	/* print character frequencies on a graph */
+	for (i = GRAPH_HEIGHT; i > 0; --i) {
+		printf("%2d |", i);
+		for (j = 'a'; j <= 'z'; ++j) {
+			if (af[j - 'a'] == i) {
+				printf(" | ");
+				--af[j - 'a'];
+			}
+			else
+				printf("   ");
+		}
+		printf("\n");
+	}
 
-int main(void)
-{
-    unsigned int af[UCHAR_MAX+1] = {0};
-    count_chars(stdin, af);
-    print_graph(stdout, af);
+	printf("   " "*" "---------------" "---------------" "---------------" "---------------" "---------------" "---"  "\n");
+	printf("   ");
+	for (i = 'a'; i <= 'z'; ++i) {
+		printf("%3c", i);
+	}
+
+	printf("\n");
 }
