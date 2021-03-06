@@ -42,7 +42,7 @@ void check_paren(void)
 			++line;
 		} else if (state != COMMENT) {
 			if (c == '/') 
-				if ((c = getchar()) == '*') // There will be no punctuation right after the forward slash.
+				if ((c = getchar()) == '*')
 					state = COMMENT;
 		}
 		
