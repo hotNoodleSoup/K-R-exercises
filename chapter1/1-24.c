@@ -134,4 +134,7 @@ void check_paren(void)
 				state = NOTHING;
 		}
 	}
+	
+	if (n > 0)
+		printf("There is remaining opening parentheses\n");
 }
