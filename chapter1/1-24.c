@@ -35,7 +35,7 @@ void check_paren(void)
 	line = 1;
 	state = NOTHING;
 	while ((c = getchar()) != EOF) {
-		if ( n > MAX_NESTING_LEVEL -1) {
+		if (n > MAX_NESTING_LEVEL -1) {
 			printf("error : line %d : exceed MAX_NESTING_LEVEL\n", line);
 			return;
 		} else if (c == '\n') {
