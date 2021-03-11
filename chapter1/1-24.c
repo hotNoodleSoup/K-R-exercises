@@ -133,5 +133,5 @@ void check_paren(void)
 	}
 	
 	if (n > 0)
-		printf("There is a remaining '%d' opening parentheses\n", n);
+		printf("%d opening parenthese%c %s remained\n", n, n == 1 ? '\0' : 's', n == 1 ? "is" : "are");
 }
