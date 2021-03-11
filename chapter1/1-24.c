@@ -81,8 +81,7 @@ void check_paren(void)
 			else if (c == '}') {
 				printf("error : line %d : ( + }\n", line);
 				return;
-			}
-			else if (c == ']') {
+			} else if (c == ']') {
 				printf("error : line %d : ( + ]\n", line);
 				return;
 			}
@@ -102,8 +101,7 @@ void check_paren(void)
 			else if (c == ')') {
 				printf("error : line %d : { + )\n", line);
 				return;
-			}
-			else if (c == ']') {
+			} else if (c == ']') {
 				printf("error : line %d : { + ]\n", line);
 				return;
 			}
@@ -117,8 +115,7 @@ void check_paren(void)
 			else if (c == ')') {
 				printf("error : line %d : [ + )\n", line);
 				return;
-			}
-			else if (c == '}') {
+			} else if (c == '}') {
 				printf("error : line %d : [ + }\n", line);
 				return;
 			}
