@@ -133,5 +133,5 @@ void check_paren(void)
 	}
 	
 	if (n > 0)
-		printf("%d opening parenthese%c %s remained\n", n, n == 1 ? '\0' : 's', n == 1 ? "is" : "are");
+		printf("%d opening parenthes%s %s remained\n", n, n == 1 ? "is" : "es", n == 1 ? "is" : "are");
 }
