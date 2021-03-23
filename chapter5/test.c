@@ -1,128 +1,85 @@
 #include <stdio.h>
-#include <stdlib.h>  // for atof()
-#include <math.h>
-
-#define MAXOP 100    // max size of operand or operator
-#define NUMBER '0'   // signal that a number wes found
-
-int getop(char []);
-void push(double);
-double pop(void);
-
-/* reverse Polish calculator */
-int main(void)
-{
- 	int type;
- 	double op2;
-  	char s[MAXOP];
-
- 	while ((type = getop(s)) != EOF) {
-    		switch (type) {
-			case NUMBER:
-		  		push(atof(s));
-	  			break;
-			case '+':
-		  		push(pop() + pop());
-	  			break;
-			case '-':
-		  		op2 = pop();
-	  			push(pop() - op2);
-	  			break;
-			case '*':
-	  			push(pop() * pop());
-	  			break;
-			case '/':
-		  		op2 = pop();
-		  		if (op2 != 0.0)
-	    				push(pop() / op2);
-				else
-					printf("error: zero divisor\n");
-	  			break;
-			case '%':
-				op2 = pop();
-				if (op2 != 0.0)
-					push(fmod(pop(), op2));
-				else
-					printf("error: zero divisor\n");
-				break;
-			case '\n':
-	  			printf("\t%.8g\n", pop());
-	  			break;
-			default:
-	  			printf("error: unknown command %s\n", s);
-	  			break;
-		}
-  	}  
- 	return 0;
-}
-
-#define MAXVAL 100
-
-int sp = 0;
-double val[MAXVAL];
-
-/* push: push f onto value stack */
-void push(double f)
-{
-	if (sp < MAXVAL)
-	    	val[sp++] = f;
-  	else
-    		printf("error: stack full, con't push %g\n", f);
-}
-
-/* pop: pop and return top value from stack */
-double pop(void)
-{
-  	if (sp > 0)
-    		return val[--sp];
-  	else {
-      		printf("error: stack empty\n");
-      		return 0.0;
-    	}
-}
-
 #include <ctype.h>
 
-int getch(void);
-void ungetch(int);
+void entab(int n);
+int atoi(char s[]);
 
-/* getop: get next operator or numberic operand */
-int getop(char *s)
+int main(int argc, char *argv[])
 {
- 	int i, c;
-
-  	while ((*s = c = getch()) == ' ' || c == '\t')
-    		;
-  	*(s+1) = '\0';
-  	if (!isdigit(c) && c != '.')
-    		return c;                  // not a number
-  	i = 0;
-  	if (isdigit(c))              // collect integer part
-    		while (isdigit(*++s = c = getch()))
-      			;
-  	if (c == '.')                // collect fraction part
-	    	while (isdigit(*++s = c = getch()))
-      			;
-  	*s = '\0';
-  	if (c != EOF)
-    		ungetch(c);
-  	return NUMBER;
+	if (argc == 1)
+       	entab(8);
+	else if (argc == 2)
+		entab(atoi(*++argv));
+	else
+		printf("Can't accept arguments more than one\n");
+		
 }
 
-#define BUFFSIZE 100
-
-char buf[BUFFSIZE];  // buffer for ungetch
-int bufp = 0;        // next free posotion in buf
-
-int getch(void)      // get a (possibly pushed back) character
+void entab(int n)
 {
-  	return (bufp > 0) ? buf[--bufp] : getchar();
+    int c;
+    int i, j, k;
+    int temp[n];
+
+	k = 0;
+    while (1) {
+
+    	for (i = 0; i < n; ++i) {
+        	temp[i] = getchar();
+        	if (temp[i] == EOF) {
+	    		if (i > 0)
+            		for (j = 0; j < i; ++j)
+	                	putchar(temp[j]);
+            		break;
+        	} else if (temp[i] == '\n') {
+	        	for (j = 0; j <= i; ++j)
+            		putchar(temp[j]);
+                	break;
+			} else if (temp[i] == '\t') {
+				for (j = 0; j <= i; ++j)
+            		putchar(temp[j]);
+					break;
+        	}
+    	}
+
+   		if (temp[i] == EOF)
+        	break;
+        if (temp[i] == '\n')
+        	continue;
+		if (temp[i] == '\t')
+			continue;
+
+        if (temp[n-1] != ' ') {
+        	for (i = 0; i <= n-1; ++i)
+            	putchar(temp[i]);
+		} else {
+        	for (k = n-2; k >= 0; --k) {
+            	if (temp[k] != ' ') {
+                	for (i = 0; i <= k; ++i)
+                    	putchar(temp[i]);
+                        putchar('\t');
+                        break;
+                    }
+            }
+        }
+        if (k == -1) {
+        	putchar('\t');
+            k = 0;
+  	  	}
+ 	}
+
+       	printf("\n");
 }
 
-void ungetch(int c)  // push back on input
+int atoi(char s[])
 {
-  	if (bufp >= BUFFSIZE)
-    		printf("ungetch: too many characters\n");
-  	else
-	  	buf[bufp++] = c;
+	int i, n, sign;
+	for (i = 0; isspace(s[i]); i++)
+		;
+	sign = (s[i] == '-') ? -1 : 1;
+	if (s[i] == '+' || s[i] == '-')
+		i++;
+	for (n = 0; isdigit(s[i]); i++)
+		n = 10 * n + (s[i] - '0');
+	return sign * n;
 }
