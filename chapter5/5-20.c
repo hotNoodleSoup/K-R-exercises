@@ -1,3 +1,7 @@
+// I brought this source code from
+// https://github.com/anotherlin/tcpl/blob/master/chapter_5/exercise_5-20.c
+// I couldn't solve it myself and should be do it later on my own. You can regard it as a placeholder.
+
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
